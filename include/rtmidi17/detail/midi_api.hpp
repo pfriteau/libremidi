@@ -158,6 +158,27 @@ public:
     return {};
   }
 
+#if defined(RTMIDI17_COROUTINES)
+  task wait_for_message()
+  {
+    if (inputData_.userCallback)
+    {
+      warning(
+          "RtMidiIn::wait_for_message: a user callback is currently set for "
+          "this port.");
+      co_return {};
+    }
+
+    while(true) {
+      message m;
+      if (inputData_.queue.pop(m))
+      {
+        co_yield m;
+      }
+    }
+  }
+#endif
+
   struct midi_queue
   {
     unsigned int front{};

@@ -226,6 +226,14 @@ message midi_in::get_message()
   return (static_cast<midi_in_api*>(rtapi_.get()))->get_message();
 }
 
+#if defined(RTMIDI17_COROUTINES)
+RTMIDI17_INLINE
+task midi_in::wait_for_message()
+{
+  return (static_cast<midi_in_api*>(rtapi_.get()))->wait_for_message();
+}
+#endif
+
 RTMIDI17_INLINE
 void midi_in::set_error_callback(midi_error_callback errorCallback)
 {

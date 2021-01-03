@@ -67,6 +67,14 @@
 #include <string_view>
 #include <vector>
 
+#if defined(__cpp_lib_coroutine) && defined(__cpp_impl_coroutine)
+#define RTMIDI17_COROUTINES 1
+#endif
+
+#if defined(RTMIDI17_COROUTINES)
+#include <rtmidi17/detail/coroutine.hpp>
+#endif
+
 #if defined(RTMIDI17_EXPORTS)
 #  if defined(_MSC_VER)
 #    define RTMIDI17_EXPORT __declspec(dllexport)
@@ -357,6 +365,10 @@ public:
     established.
   */
   message get_message();
+
+#if defined(RTMIDI17_COROUTINES)
+  task wait_for_message();
+#endif
 
   //! Set an error callback function to be invoked when an error has occured.
   /*!
