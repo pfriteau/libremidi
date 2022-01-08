@@ -21,7 +21,7 @@ if(LIBREMIDI_HEADER_ONLY)
   set(_public INTERFACE)
   target_compile_definitions(libremidi ${_public} LIBREMIDI_HEADER_ONLY)
 else()
-  add_library(libremidi
+  add_library(libremidi STATIC
     include/libremidi/detail/alsa.hpp
     include/libremidi/detail/coreaudio.hpp
     include/libremidi/detail/dummy.hpp
